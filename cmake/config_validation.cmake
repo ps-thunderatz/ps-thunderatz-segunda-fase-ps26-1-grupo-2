@@ -89,6 +89,7 @@ endif()
 # Check if STM32CubeMX project is correctly configured
 set(CUBE_CMAKE_TOOLCHAIN_CONFIG "ProjectManager.TargetToolchain=CMake")
 set(IOC_FILE "cube/${PROJECT_RELEASE}.ioc")
+message(${CMAKE_PROJECT_NAME})
 file(READ ${IOC_FILE} IOC_CONTENTS)
 string(FIND ${IOC_CONTENTS} ${CUBE_CMAKE_TOOLCHAIN_CONFIG} CUBE_CMAKE_TOOLCHAIN_CONFIG_POS)
 

@@ -11,7 +11,7 @@
 #include "mcu.hpp"
 #include "controller.hpp"
 
-Controller::Controller() {
+Controller::Controller(Led led, Locomotion locomotion, Rc rc) : led(led),locomotion(locomotion),rc(rc){
     // TODO: Adicionar a lógica de construção do objeto
 }
 

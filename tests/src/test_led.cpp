@@ -17,7 +17,7 @@ int main() {
 
     hal::mcu::init();
 
-    Led led(LED_PORT, LED_PIN, GPIO_PIN_RESET);
+    Led led(LED_PORT, LED_PIN);
 
     for (;;) {
         hal::mcu::sleep(1000);
