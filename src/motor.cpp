@@ -31,7 +31,7 @@ void Motor::set_speed(int8_t speed) {
 
     speed = utils::map(speed, -100, 100, min_speed, max_speed);
     int8_t stop_threshold = min_speed/20;
-    if (speed >= -stop_threshold && speed <= stop_threshold) { stop();
+    if (speed >= -1*(stop_threshold) && speed <= stop_threshold) { stop();
     } else if (speed < 0) {
         __HAL_TIM_SET_COMPARE(&forward_tim_handle, forward_tim_ch, 0);
         __HAL_TIM_SET_COMPARE(&backward_tim_handle, backward_tim_ch, -speed);
