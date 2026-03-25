@@ -26,7 +26,7 @@
  * @brief A timer that generates 4 kHz PWM signals to the motors H bridges.
  */
 #define MOTORS_TIM_INIT MX_TIM2_Init
-#define MOTORS_TIM_HANDLER (htim2)
+#define MOTORS_TIM_HANDLER (&htim2)
 
 #define RIGHT_MOTOR_FORWARD_TIM_CH TIM_CHANNEL_1
 #define RIGHT_MOTOR_BACKWARD_TIM_CH TIM_CHANNEL_2

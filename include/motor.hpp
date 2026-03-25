@@ -26,7 +26,7 @@ public:
      */
     Motor(
         void (*tim_init)(), TIM_HandleTypeDef* forward_tim_handle, uint8_t forward_tim_ch,
-        TIM_HandleTypeDef* backward_tim_handle, uint8_t backward_tim_ch, int8_t min_speed = -100, int8_t max_speed = 100
+        TIM_HandleTypeDef* backward_tim_handle, uint8_t backward_tim_ch, int min_speed = -700, int max_speed = 700
     );
 
     /**

@@ -33,7 +33,7 @@ int main() {
     Locomotion locomotion(motor_left, motor_right);
 
     for (;;) {
-        locomotion.set_speed(50, -50)
+        locomotion.set_speed(50, -50);
 
         led.on();
 
@@ -45,7 +45,7 @@ int main() {
 
         hal::mcu::sleep(2000);
 
-        locomotion.set_speed(-50, 50)
+        locomotion.set_speed(-50, 50);
 
         led.on();
 

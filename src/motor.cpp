@@ -15,7 +15,7 @@
 
 Motor::Motor(
     void (*tim_init)(), TIM_HandleTypeDef* forward_tim_handle, uint8_t forward_tim_ch,
-    TIM_HandleTypeDef* backward_tim_handle, uint8_t backward_tim_ch, int8_t min_speed, int8_t max_speed
+    TIM_HandleTypeDef* backward_tim_handle, uint8_t backward_tim_ch, int min_speed, int max_speed
 ) : forward_tim_handle(forward_tim_handle), forward_tim_ch(forward_tim_ch),
     backward_tim_handle(backward_tim_handle), backward_tim_ch(backward_tim_ch),
     min_speed(min_speed), max_speed(max_speed) {
@@ -29,7 +29,7 @@ Motor::Motor(
 void Motor::set_speed(int8_t speed) {
     // Implemente aqui a função para definir a velocidade do motor.
 
-    speed = map(speed, -100, 100, min_speed, max_speed); //erro aqui
+    speed = map<int8_t>(speed, -100, 100, min_speed, max_speed); 
     int8_t stop_threshold = min_speed/20;
     if (speed >= -1*(stop_threshold) && speed <= stop_threshold) { stop();
     } else if (speed < 0) {
