@@ -38,18 +38,23 @@ void Controller::move_robot(Direction direction) {
     switch (direction) {
         // TODO: Implementar a lógica de movimentação do robô
         case FORWARD: {
+            locomotion.set_speed(100,100);
             break;
         }
         case BACKWARD: {
+            locomotion.set_speed(-100,-100);
             break;
         }
         case LEFT: {
+            
             break;
         }
         case RIGHT: {
+            
             break;
         }
         case STOPPED: {
+            locomotion.stop();
             break;
         }
         case RC_INPUT: {
@@ -82,13 +87,28 @@ void Controller::strategy_run() {
             if (turn_start_time == 0) {
                 turn_start_time = HAL_GetTick();
                 locomotion.set_speed(-100, 100);
-        }
+            }
 
-            if (HAL_GetTick() - this->turn_start_time >= this->TURN_180_TIME_MS) {
+            if (HAL_GetTick() - turn_start_time >= TURN_180_TIME_MS) {
                 locomotion.stop();
                 turn_start_time = 0;
                 current_state = RUN; //volta para cá caso o tempo seja menor do que 300ms ainda
             }
+
+            /*Imaginei que seria assim:
+            uint32_t turn_start_time = 0;
+            const uint32_t TURN_180_TIME_MS = 300;
+            if (turn_start_time == 0) {
+                turn_start_time = HAL_GetTick();
+                locomotion.set_speed(-100, 100);
+            }
+
+            if (HAL_GetTick() - turn_start_time >= TURN_180_TIME_MS) {
+                locomotion.stop();
+                turn_start_time = 0;
+                current_state = RUN; //volta para cá caso o tempo seja menor do que 300ms ainda
+            }                         
+            */
             break;
 
         }
