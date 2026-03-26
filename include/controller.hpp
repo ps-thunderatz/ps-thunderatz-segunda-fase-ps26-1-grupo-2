@@ -50,6 +50,7 @@ private:
      * @brief Robot directions.
      */
     enum Direction {
+        SLOW_FOWARD,
         FORWARD,
         BACKWARD,
         LEFT,
@@ -71,6 +72,8 @@ private:
      * @param direction Direction to move the robot.
      */
     void move_robot(Direction direction);
+
+    void move_timer(uint32_t time_elapsed, Direction direction);
 
     /**
      * @brief Set the next strategy.
