@@ -30,8 +30,8 @@ int main() {
     );
 
     for (;;) {
-        motor_left.set_speed(-50);
-        motor_right.set_speed(50);
+        motor_left.set_speed(-70);
+        motor_right.set_speed(70);
 
         led.on();
 
@@ -44,8 +44,8 @@ int main() {
 
         hal::mcu::sleep(2000);
 
-        motor_left.set_speed(50);
-        motor_right.set_speed(-50);
+        motor_left.set_speed(70);
+        motor_right.set_speed(-70);
 
         led.on();
 

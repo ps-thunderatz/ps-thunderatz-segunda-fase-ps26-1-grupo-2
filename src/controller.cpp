@@ -11,7 +11,7 @@
 #include "mcu.hpp"
 #include "controller.hpp"
 
-Controller::Controller(Led led, Locomotion locomotion, Rc rc) : led(led),locomotion(locomotion),rc(rc){
+Controller::Controller(Led led, Locomotion locomotion, Rc rc) : led(led), locomotion(locomotion), rc(rc) {
     // TODO: Adicionar a lógica de construção do objeto
 }
 
@@ -50,7 +50,7 @@ void Controller::move_robot(Direction direction) {
             const uint32_t TURN_90L_TIME_MS = 150;
             turn_start_time = HAL_GetTick();
             locomotion.set_speed(-100, 100);
-            while(HAL_GetTick() - turn_start_time >= TURN_90L_TIME_MS){
+            while(HAL_GetTick() - turn_start_time >= TURN_90L_TIME_MS) {
             }
             locomotion.stop();
             break;
@@ -60,7 +60,7 @@ void Controller::move_robot(Direction direction) {
             const uint32_t TURN_90R_TIME_MS = 150;
             turn_start_time = HAL_GetTick();
             locomotion.set_speed(100, -100);
-            while(HAL_GetTick() - turn_start_time >= TURN_90R_TIME_MS){
+            while(HAL_GetTick() - turn_start_time >= TURN_90R_TIME_MS) {
             }
             locomotion.stop();
             break;
@@ -83,8 +83,47 @@ void Controller::move_robot(Direction direction) {
 
 void Controller::strategy_run() {
     switch (this->current_level) {
-        case LEVEL_0: {
+        case LEVEL_0: { //elastico
             // TODO: Implementar a lógica de execução da estratégia 0
+            uint32_t turn_start_time = 0;
+            const uint32_t TURN_TIMER = 70;
+            const uint32_t TINY_STRAIGHT_TIMER = 50;
+            const uint32_t NORMAL_STRAIGHT_TIMER = 200;
+            if (turn_start_time == 0) {
+                turn_start_time = HAL_GetTick();
+                locomotion.set_speed(-100, 100);
+            }
+            if (HAL_GetTick() - turn_start_time >= TURN_TIMER) {
+                locomotion.stop();
+                turn_start_time = 0;
+            }
+
+            if (turn_start_time == 0) {
+                turn_start_time = HAL_GetTick();
+                locomotion.set_speed(50, 50);
+            }
+            if (HAL_GetTick() - turn_start_time >= TINY_STRAIGHT_TIMER) {
+                locomotion.stop();
+                turn_start_time = 0;
+            }
+
+            if (turn_start_time == 0) {
+                turn_start_time = HAL_GetTick();
+                locomotion.set_speed(100, -100);
+            }
+            if (HAL_GetTick() - turn_start_time >= TURN_TIMER) {
+                locomotion.stop();
+                turn_start_time = 0;
+            }
+
+             if (turn_start_time == 0) {
+                turn_start_time = HAL_GetTick();
+                locomotion.set_speed(100, 100);
+            }
+            if (HAL_GetTick() - turn_start_time >= NORMAL_STRAIGHT_TIMER) {
+                locomotion.stop();
+                turn_start_time = 0;
+            }
             break;
         }
         case LEVEL_1: { //zigue-zague
