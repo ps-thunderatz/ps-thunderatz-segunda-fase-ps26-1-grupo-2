@@ -52,7 +52,7 @@ void Controller::move_robot(Direction direction) {
             locomotion.set_speed(-100, 100);
             while(HAL_GetTick() - turn_start_time >= TURN_90L_TIME_MS){
             }
-            locomotion.stop();                        
+            locomotion.stop();
             break;
         }
         case RIGHT: {
@@ -62,7 +62,7 @@ void Controller::move_robot(Direction direction) {
             locomotion.set_speed(100, -100);
             while(HAL_GetTick() - turn_start_time >= TURN_90R_TIME_MS){
             }
-            locomotion.stop();                        
+            locomotion.stop();
             break;
         }
         case STOPPED: {
@@ -78,18 +78,80 @@ void Controller::move_robot(Direction direction) {
     }
 }
 
+
+// Ajustes de timers necessario
+
 void Controller::strategy_run() {
     switch (this->current_level) {
         case LEVEL_0: {
             // TODO: Implementar a lógica de execução da estratégia 0
             break;
         }
-        case LEVEL_1: {
+        case LEVEL_1: { //zigue-zague
             // TODO: Implementar a lógica de execução da estratégia 1
+            uint32_t turn_start_time = 0;
+            const uint32_t TURN_TIMER = 70;
+            const uint32_t STRAIGHT_TIMER = 100;
+            if (turn_start_time == 0) {
+                turn_start_time = HAL_GetTick();
+                locomotion.set_speed(100, -100);
+            }
+            if (HAL_GetTick() - turn_start_time >= TURN_TIMER) {
+                locomotion.stop();
+                turn_start_time = 0;
+            }
+
+            if (turn_start_time == 0) {
+                turn_start_time = HAL_GetTick();
+                locomotion.set_speed(100, 100);
+            }
+            if (HAL_GetTick() - turn_start_time >= STRAIGHT_TIMER) {
+                locomotion.stop();
+                turn_start_time = 0;
+            }
+
+            if (turn_start_time == 0) {
+                turn_start_time = HAL_GetTick();
+                locomotion.set_speed(-100, 100);
+            }
+            if (HAL_GetTick() - turn_start_time >= TURN_TIMER) {
+                locomotion.stop();
+                turn_start_time = 0;
+            }
+
+             if (turn_start_time == 0) {
+                turn_start_time = HAL_GetTick();
+                locomotion.set_speed(100, 100);
+            }
+            if (HAL_GetTick() - turn_start_time >= STRAIGHT_TIMER) {
+                locomotion.stop();
+                turn_start_time = 0;
+            }
             break;
         }
-        case LEVEL_2: {
+        case LEVEL_2: { //chute
             // TODO: Implementar a lógica de execução da estratégia 2
+            uint32_t turn_start_time = 0;
+            const uint32_t AJUSTEZINHO_TIME = 50;
+            const uint32_t TURN_90_TIME_MS = 150;
+            if (turn_start_time == 0) {
+                turn_start_time = HAL_GetTick();
+                locomotion.set_speed(100, -100);
+            }
+            if (HAL_GetTick() - turn_start_time >= AJUSTEZINHO_TIME) {
+                locomotion.stop();
+                turn_start_time = 0;
+            }
+
+            if (turn_start_time == 0) {
+                turn_start_time = HAL_GetTick();
+                locomotion.set_speed(-100, 100);
+            }
+            if (HAL_GetTick() - turn_start_time >= TURN_90_TIME_MS) {
+                locomotion.stop();
+                turn_start_time = 0;
+                current_state = RUN; //volta para cá caso o tempo seja menor do que 300ms ainda
+            }
             break;
         }
         case LEVEL_3: { //giro 180º
@@ -100,7 +162,6 @@ void Controller::strategy_run() {
                 turn_start_time = HAL_GetTick();
                 locomotion.set_speed(-100, 100);
             }
-
             if (HAL_GetTick() - turn_start_time >= TURN_180_TIME_MS) {
                 locomotion.stop();
                 turn_start_time = 0;
@@ -115,7 +176,7 @@ void Controller::strategy_run() {
             while(HAL_GetTick() - turn_start_time >= TURN_180_TIME_MS){
             }
             locomotion.stop();
-            current_state = RUN; //volta para cá caso o tempo seja menor do que 300ms ainda                        
+            current_state = RUN; //volta para cá caso o tempo seja menor do que 300ms ainda
             */
             break;
 
