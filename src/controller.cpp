@@ -46,11 +46,23 @@ void Controller::move_robot(Direction direction) {
             break;
         }
         case LEFT: {
-            
+            uint32_t turn_start_time = 0;
+            const uint32_t TURN_90L_TIME_MS = 150;
+            turn_start_time = HAL_GetTick();
+            locomotion.set_speed(-100, 100);
+            while(HAL_GetTick() - turn_start_time >= TURN_90L_TIME_MS){
+            }
+            locomotion.stop();                        
             break;
         }
         case RIGHT: {
-            
+            uint32_t turn_start_time = 0;
+            const uint32_t TURN_90R_TIME_MS = 150;
+            turn_start_time = HAL_GetTick();
+            locomotion.set_speed(100, -100);
+            while(HAL_GetTick() - turn_start_time >= TURN_90R_TIME_MS){
+            }
+            locomotion.stop();                        
             break;
         }
         case STOPPED: {
@@ -98,16 +110,12 @@ void Controller::strategy_run() {
             /*Imaginei que seria assim:
             uint32_t turn_start_time = 0;
             const uint32_t TURN_180_TIME_MS = 300;
-            if (turn_start_time == 0) {
-                turn_start_time = HAL_GetTick();
-                locomotion.set_speed(-100, 100);
+            turn_start_time = HAL_GetTick();
+            locomotion.set_speed(-100, 100);
+            while(HAL_GetTick() - turn_start_time >= TURN_180_TIME_MS){
             }
-
-            if (HAL_GetTick() - turn_start_time >= TURN_180_TIME_MS) {
-                locomotion.stop();
-                turn_start_time = 0;
-                current_state = RUN; //volta para cá caso o tempo seja menor do que 300ms ainda
-            }                         
+            locomotion.stop();
+            current_state = RUN; //volta para cá caso o tempo seja menor do que 300ms ainda                        
             */
             break;
 
