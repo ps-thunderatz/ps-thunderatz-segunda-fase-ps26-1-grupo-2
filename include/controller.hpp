@@ -73,7 +73,7 @@ private:
      */
     void move_robot(Direction direction);
 
-    void move_timer(uint32_t time_elapsed, Direction direction);
+    void move_timer(Direction direction, uint32_t time_elapsed);
 
     /**
      * @brief Set the next strategy.

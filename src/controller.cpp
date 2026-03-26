@@ -13,7 +13,6 @@
 
 static volatile int16_t left_speed;
 static volatile int16_t right_speed;
-            break;
 static volatile int16_t channel_1;
 static volatile int16_t channel_2;
 
@@ -32,8 +31,6 @@ void Controller::run() {
         case RUN: {
             // TODO: Implementar a lógica de execução da estratégia
             this->strategy_run();
-            this->current_state = default;
-            break;
         }
         default: {
             // TODO: Implementar a lógica de estado padrão
@@ -92,7 +89,7 @@ void Controller::move_robot(Direction direction) {
     }
 }
 
-void Controller::move_timer(uint32_t time_elapsed, Direction direction) {
+void Controller::move_timer(Direction direction, uint32_t time_elapsed) {
     uint32_t turn_start_time = 0;
     if (turn_start_time == 0) {
         turn_start_time = HAL_GetTick();
@@ -105,7 +102,7 @@ void Controller::move_timer(uint32_t time_elapsed, Direction direction) {
 }
 
 void Controller::set_next_strategy() {
-    if (rc.get_speed_ch1() == 100 && rc.get_speed_ch2 == 100) {
+    if (rc.get_speed_ch1() == 100 && rc.get_speed_ch2() == 100) {
         this->current_level = LEVEL_0;
     } else if (rc.get_speed_ch1() == 100 && rc.get_speed_ch2() == -100) {
         this->current_level = LEVEL_1;
