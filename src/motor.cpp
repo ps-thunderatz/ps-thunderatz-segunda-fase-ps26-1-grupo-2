@@ -29,9 +29,9 @@ Motor::Motor(
 void Motor::set_speed(int8_t speed) {
     // Implemente aqui a função para definir a velocidade do motor.
 
-    speed = map<int32_t>(speed, -100, 100, -1000, 1000);
-    int8_t stop_threshold = min_speed/20;
-    if (speed >= -1*(stop_threshold) && speed <= stop_threshold) { stop(); // foi confundido o && com o || (or)
+    int32_t mapped_speed = map<int32_t>((int32_t) speed, (int32_t) min_speed, (int32_t) max_speed, -1000, 1000); // se funcionar fica
+    if (mapped_speed >= -BREAK_SPEED_THRESHOLD && mapped_speed <= BREAK_SPEED_THRESHOLD) {   // foi confundido o && com o || (or)
+        stop();
     } else if (speed < 0) {
         __HAL_TIM_SET_COMPARE(forward_tim_handle, forward_tim_ch, 0);
         __HAL_TIM_SET_COMPARE(backward_tim_handle, backward_tim_ch, -speed);
