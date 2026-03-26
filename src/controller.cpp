@@ -27,6 +27,8 @@ void Controller::run() {
         }
         default: {
             // TODO: Implementar a lógica de estado padrão
+            locomotion.stop();
+            led.off();
             break;
         }
     }
@@ -73,8 +75,22 @@ void Controller::strategy_run() {
             // TODO: Implementar a lógica de execução da estratégia 2
             break;
         }
-        case LEVEL_3: {
+        case LEVEL_3: { //giro 180º
             // TODO: Implementar a lógica de execução da estratégia 3
+            uint32_t turn_start_time = 0;
+            const uint32_t TURN_180_TIME_MS = 300;
+            if (turn_start_time == 0) {
+                turn_start_time = HAL_GetTick();
+                locomotion.set_speed(-100, 100);
+        }
+
+            if (HAL_GetTick() - this->turn_start_time >= this->TURN_180_TIME_MS) {
+                locomotion.stop();
+                turn_start_time = 0;
+                current_state = RUN; //volta para cá caso o tempo seja menor do que 300ms ainda
+            }
+            break;
+
         }
         default: {
             break;
