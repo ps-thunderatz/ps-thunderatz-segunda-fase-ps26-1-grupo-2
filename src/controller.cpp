@@ -18,6 +18,7 @@ static volatile int16_t channel_2;
 
 Controller::Controller(Led led, Locomotion locomotion, Rc rc) : led(led), locomotion(locomotion), rc(rc) {
     // TODO: Adicionar a lógica de construção do objeto
+    this->current_level = LEVEL_3;
 }
 
 void Controller::run() {
@@ -32,14 +33,19 @@ void Controller::run() {
         case RUN: {
             // TODO: Implementar a lógica de execução da estratégia
             this->strategy_run();
+            this->current_state = INIT;
+            break;
         }
-        default: {
+        case INIT: {
             // TODO: Implementar a lógica de estado padrão
             if ((rc.get_speed_ch1() == 100 || rc.get_speed_ch1() == -100) && (rc.get_speed_ch2() == 100 || rc.get_speed_ch2() == -100)) {
                 this->current_state = STRATEGY_CHOOSER;
             } else {
                 this->move_robot(RC_INPUT);
             }
+            break;
+        }
+        case STOP: {
             break;
         }
     }
@@ -73,7 +79,7 @@ void Controller::move_robot(Direction direction) {
             break;
         }
         case RC_INPUT: {
-            channel_1 = -rc.get_speed_ch1();
+            /*channel_1 = -rc.get_speed_ch1();
         	channel_2 = rc.get_speed_ch2();
 
         	left_speed = channel_1 + channel_2;
@@ -81,8 +87,10 @@ void Controller::move_robot(Direction direction) {
 
         	left_speed = constrain(left_speed, -70, 70);
         	right_speed = constrain(right_speed, -70, 70);
-        	locomotion.set_speed(left_speed, right_speed);
-            led.off();
+        	locomotion.set_speed(left_speed, right_speed);*/
+
+        locomotion.set_speed(rc.get_speed_ch1(),rc.get_speed_ch2());
+
             break;
         }
         default: {
@@ -152,9 +160,17 @@ void Controller::strategy_run() {
             // TODO: Implementar a lógica de execução da estratégia 2
             const uint32_t AJUSTEZINHO_TIME = 50;
             const uint32_t TURN_90_TIME_MS = 250;
-
+            led.on();
+            hal::mcu::sleep(2000);
+            led.off();
             this->move_timer(RIGHT, AJUSTEZINHO_TIME);
+            led.on();
+            hal::mcu::sleep(2000);
+            led.off();
             this->move_timer(LEFT, TURN_90_TIME_MS);
+            led.on();
+            hal::mcu::sleep(2000);
+            led.off();
 
             break;
         }
@@ -170,4 +186,8 @@ void Controller::strategy_run() {
             break;
         }
     }
+}
+
+extern "C" void HAL_TIM_IC_CaptureCallback(TIM_HandleTypeDef* htim) {
+    Rc::handle_global_callback(htim);
 }

@@ -89,11 +89,11 @@ private:
     Locomotion locomotion;
     Rc         rc;
 
-    State     current_state = INIT;
+    State     current_state = RUN;
     Direction turn = STOPPED;
 
     const uint8_t max_strategy = 3;
-    uint8_t       current_level = 0;
+    uint8_t       current_level = 2;
 
 };  // namespace controller
 
