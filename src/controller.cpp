@@ -31,6 +31,7 @@ void Controller::run() {
         case RUN: {
             // TODO: Implementar a lógica de execução da estratégia
             this->strategy_run();
+            break;
         }
         default: {
             // TODO: Implementar a lógica de estado padrão
