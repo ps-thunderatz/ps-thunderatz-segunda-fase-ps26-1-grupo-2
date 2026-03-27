@@ -35,3 +35,7 @@ int main() {
     }
     return 0;
 }
+
+extern "C" void HAL_TIM_IC_CaptureCallback(TIM_HandleTypeDef* htim) {
+    Rc::handle_global_callback(htim);
+}

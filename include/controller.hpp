@@ -35,7 +35,19 @@ public:
      */
     void run();
 
-private:
+    enum Direction {
+        SLOW_FOWARD,
+        FORWARD,
+        BACKWARD,
+        LEFT,
+        RIGHT,
+        STOPPED,
+        RC_INPUT,
+    };
+
+    void move_robot(Direction direction);
+
+//private:
     /**
      * @brief Controller states.
      */
@@ -49,15 +61,7 @@ private:
     /**
      * @brief Robot directions.
      */
-    enum Direction {
-        SLOW_FOWARD,
-        FORWARD,
-        BACKWARD,
-        LEFT,
-        RIGHT,
-        STOPPED,
-        RC_INPUT,
-    };
+
 
     enum Level : uint8_t {
         LEVEL_0,
@@ -71,9 +75,9 @@ private:
      *
      * @param direction Direction to move the robot.
      */
-    void move_robot(Direction direction);
 
-    void move_timer(Direction direction, uint32_t time_elapsed);
+
+    void move_timer(Direction direction, uint16_t time_elapsed);
 
     /**
      * @brief Set the next strategy.
