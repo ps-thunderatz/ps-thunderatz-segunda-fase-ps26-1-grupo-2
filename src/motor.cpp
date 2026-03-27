@@ -29,14 +29,15 @@ Motor::Motor(
 void Motor::set_speed(int8_t speed) {
     // Implemente aqui a função para definir a velocidade do motor.
 
-    int32_t mapped_speed = map<int32_t>((int32_t) speed, (int32_t) min_speed, (int32_t) max_speed, -1000, 1000); // se funcionar fica
-    if (mapped_speed >= -BREAK_SPEED_THRESHOLD && mapped_speed <= BREAK_SPEED_THRESHOLD) {   // foi confundido o && com o || (or)
-        stop();
-    } else if (speed < 0) {
+    int32_t mapped_speed = map<int32_t>((int8_t) speed, (int32_t) min_speed, (int32_t) max_speed, -1000, 1000); // se funcionar fica
+    //if (mapped_speed >= -BREAK_SPEED_THRESHOLD && mapped_speed <= BREAK_SPEED_THRESHOLD) {   // foi confundido o && com o || (or)
+    //    stop();
+    //} else
+    if (speed < 0) {
         __HAL_TIM_SET_COMPARE(forward_tim_handle, forward_tim_ch, 0);
-        __HAL_TIM_SET_COMPARE(backward_tim_handle, backward_tim_ch, -speed);
+        __HAL_TIM_SET_COMPARE(backward_tim_handle, backward_tim_ch, -mapped_speed);
     } else {
-        __HAL_TIM_SET_COMPARE(forward_tim_handle, forward_tim_ch, speed);
+        __HAL_TIM_SET_COMPARE(forward_tim_handle, forward_tim_ch, mapped_speed);
         __HAL_TIM_SET_COMPARE(backward_tim_handle, backward_tim_ch, 0);
     }
 }
@@ -44,6 +45,6 @@ void Motor::set_speed(int8_t speed) {
 void Motor::stop() {
     // Implemente aqui a função para parar o motor.
 
-    __HAL_TIM_SET_COMPARE(forward_tim_handle, forward_tim_ch, 1000);
-    __HAL_TIM_SET_COMPARE(backward_tim_handle, backward_tim_ch, 1000);
+    __HAL_TIM_SET_COMPARE(forward_tim_handle, forward_tim_ch, 700);
+    __HAL_TIM_SET_COMPARE(backward_tim_handle, backward_tim_ch, 700);
 }

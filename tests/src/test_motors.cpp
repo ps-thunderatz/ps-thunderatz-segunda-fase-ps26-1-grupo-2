@@ -43,19 +43,5 @@ int main() {
         led.off();
 
         hal::mcu::sleep(2000);
-
-        motor_left.set_speed(70);
-        motor_right.set_speed(-70);
-
-        led.on();
-
-        hal::mcu::sleep(3000);
-
-        motor_left.stop();
-        motor_right.stop();
-
-        led.off();
-
-        hal::mcu::sleep(2000);
     }
 }
