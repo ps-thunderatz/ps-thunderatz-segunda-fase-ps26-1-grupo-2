@@ -58,8 +58,12 @@ void Controller::run() {
     }
 }
 
-void Controller::move_robot(Direction direction) {
-    /*switch (direction) {
+void Controller::move_robot(Direction turn) {
+    /*led.on();
+    hal::mcu::sleep(2000);
+    led.off();
+    hal::mcu::sleep(2000);*/
+    /*switch (turn) {
         // TODO: Implementar a lógica de movimentação do robô
         case SLOW_FOWARD: {
             locomotion.set_speed(35, 35);
@@ -85,7 +89,7 @@ void Controller::move_robot(Direction direction) {
             locomotion.stop();
             break;
         }
-        default: {*/
+        case RC_INPUT: {*/
             /*channel_1 = -rc.get_speed_ch1();
         	channel_2 = rc.get_speed_ch2();
 

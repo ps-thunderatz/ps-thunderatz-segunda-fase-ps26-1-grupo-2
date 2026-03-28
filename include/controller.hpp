@@ -35,17 +35,7 @@ public:
      */
     void run();
 
-    enum Direction {
-        SLOW_FOWARD,
-        FORWARD,
-        BACKWARD,
-        LEFT,
-        RIGHT,
-        STOPPED,
-        RC_INPUT,
-    };
 
-    void move_robot(Direction direction);
 
 //private:
     /**
@@ -57,6 +47,17 @@ public:
         RUN,
         STOP,
     };
+    enum Direction {
+        SLOW_FOWARD,
+        FORWARD,
+        BACKWARD,
+        LEFT,
+        RIGHT,
+        STOPPED,
+        RC_INPUT,
+    };
+
+    void move_robot(Direction direction);
 
     /**
      * @brief Robot directions.
@@ -93,11 +94,11 @@ public:
     Locomotion locomotion;
     Rc         rc;
 
-    State     current_state = RUN;
+    State     current_state = INIT;
     Direction turn = STOPPED;
 
     const uint8_t max_strategy = 3;
-    uint8_t       current_level = 2;
+    uint8_t       current_level = 0;
 
 };  // namespace controller
 

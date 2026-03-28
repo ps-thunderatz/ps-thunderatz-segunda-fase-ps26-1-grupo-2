@@ -39,7 +39,7 @@ int main() {
     Locomotion locomotion(motor_left, motor_right);
 
     Controller controller(led, locomotion, rc);
-
+    //controller.init();
     for(;;){
         //locomotion.set_speed(rc.get_speed_ch1(),rc.get_speed_ch2());
         controller.move_robot(Controller::RC_INPUT);
