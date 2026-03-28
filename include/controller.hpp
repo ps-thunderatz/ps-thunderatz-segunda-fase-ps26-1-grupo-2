@@ -23,7 +23,7 @@ public:
     /**
      * @brief Construct a new Controller object.
      */
-    Controller(Led led, Locomotion locomotion, Rc rc);
+    Controller(Led& led, Locomotion& locomotion, Rc& rc);
 
     /**
      * @brief Initialize controller.
@@ -90,12 +90,12 @@ public:
      */
     void strategy_run();
 
-    Led        led;
-    Locomotion locomotion;
-    Rc         rc;
+    Led*        led;
+    Locomotion* locomotion;
+    Rc*         rc;
 
     State     current_state = INIT;
-    Direction turn = STOPPED;
+    Direction direction = STOPPED;
 
     const uint8_t max_strategy = 3;
     uint8_t       current_level = 0;

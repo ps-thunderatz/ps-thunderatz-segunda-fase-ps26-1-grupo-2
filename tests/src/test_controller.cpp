@@ -42,7 +42,7 @@ int main() {
     //controller.init();
     for(;;){
         //locomotion.set_speed(rc.get_speed_ch1(),rc.get_speed_ch2());
-        controller.move_robot(Controller::RC_INPUT);
+        controller.move_robot(Controller::Direction::RC_INPUT);
     }
 }
 

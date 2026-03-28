@@ -16,7 +16,7 @@ static volatile int16_t right_speed;
 static volatile int16_t channel_1;
 static volatile int16_t channel_2;
 
-Controller::Controller(Led led, Locomotion locomotion, Rc rc) : led(led), locomotion(locomotion), rc(rc) {
+Controller::Controller(Led& led, Locomotion& locomotion, Rc& rc) : led(&led), locomotion(&locomotion), rc(&rc) {
     // TODO: Adicionar a lógica de construção do objeto
     //this->current_level = LEVEL_3;
 }
@@ -31,7 +31,7 @@ void Controller::run() {
             // TODO: Implementar a lógica de escolha de estratégia) {
             this->set_next_strategy();
             this->current_state = RUN;
-            led.off();
+            led->off();
             break;
         }
         case RUN: {
@@ -42,13 +42,13 @@ void Controller::run() {
         }
         case INIT: {
             // TODO: Implementar a lógica de estado padrão
-            if (!((rc.get_speed_ch1() == 100 || rc.get_speed_ch1() == -100) && (rc.get_speed_ch2() == 100 || rc.get_speed_ch2() == -100))) {
+            if (!((rc->get_speed_ch1() == 100 || rc->get_speed_ch1() == -100) && (rc->get_speed_ch2() == 100 || rc->get_speed_ch2() == -100))) {
                 this->move_robot(RC_INPUT);
             } else {
                 this->current_state = STRATEGY_CHOOSER;
-                led.on();
+                led->on();
                 hal::mcu::sleep(2000);
-                led.off();
+                led->off();
             }
             break;
         }
@@ -58,55 +58,56 @@ void Controller::run() {
     }
 }
 
-void Controller::move_robot(Direction turn) {
+void Controller::move_robot(Direction direction) {
     /*led.on();
     hal::mcu::sleep(2000);
-    led.off();
+    led->off();
     hal::mcu::sleep(2000);*/
-    /*switch (turn) {
+    switch (direction) {
         // TODO: Implementar a lógica de movimentação do robô
         case SLOW_FOWARD: {
-            locomotion.set_speed(35, 35);
+            locomotion->set_speed(35, 35);
             break;
         }
         case FORWARD: {
-            locomotion.set_speed(70,70);
+            locomotion->set_speed(70,70);
             break;
         }
         case BACKWARD: {
-            locomotion.set_speed(-70,-70);
+            locomotion->set_speed(-70,-70);
             break;
         }
         case LEFT: {
-            locomotion.set_speed(-70, 70);
+            locomotion->set_speed(-70, 70);
             break;
         }
         case RIGHT: {
-            locomotion.set_speed(70, -70);
+            locomotion->set_speed(70, -70);
             break;
         }
         case STOPPED: {
-            locomotion.stop();
+            locomotion->stop();
             break;
         }
-        case RC_INPUT: {*/
-            /*channel_1 = -rc.get_speed_ch1();
-        	channel_2 = rc.get_speed_ch2();
+        case RC_INPUT: {
+            channel_1 = -rc->get_speed_ch1();
+        	channel_2 = rc->get_speed_ch2();
 
         	left_speed = channel_1 + channel_2;
         	right_speed = channel_1 - channel_2;
 
         	left_speed = constrain(left_speed, -70, 70);
         	right_speed = constrain(right_speed, -70, 70);
-        	locomotion.set_speed(left_speed, right_speed);*/
-            this->locomotion.set_speed(this->rc.get_speed_ch1(),this->rc.get_speed_ch2());
-            /*break;
+        	locomotion->set_speed(left_speed, right_speed);
+            this->locomotion->set_speed(this->rc->get_speed_ch1(),this->rc->get_speed_ch2());
+            break;
         }
         default: {
             break;
         }
-    }*/
+    }
 }
+
 
 void Controller::move_timer(Direction direction, uint16_t time_elapsed) {
     this->move_robot(direction);
@@ -115,13 +116,13 @@ void Controller::move_timer(Direction direction, uint16_t time_elapsed) {
 }
 
 void Controller::set_next_strategy() {
-    if (rc.get_speed_ch1() == 100 && rc.get_speed_ch2() == 100) {
+    if (rc->get_speed_ch1() == 100 && rc->get_speed_ch2() == 100) {
         this->current_level = LEVEL_0;
-    } else if (rc.get_speed_ch1() == 100 && rc.get_speed_ch2() == -100) {
+    } else if (rc->get_speed_ch1() == 100 && rc->get_speed_ch2() == -100) {
         this->current_level = LEVEL_1;
-    } else if (rc.get_speed_ch1() == -100 && rc.get_speed_ch2() == 100) {
+    } else if (rc->get_speed_ch1() == -100 && rc->get_speed_ch2() == 100) {
         this->current_level = LEVEL_2;
-    } else if (rc.get_speed_ch1() == -100 && rc.get_speed_ch2() == -100) {
+    } else if (rc->get_speed_ch1() == -100 && rc->get_speed_ch2() == -100) {
         this->current_level = LEVEL_3;
     }
 }
@@ -163,17 +164,17 @@ void Controller::strategy_run() {
             // TODO: Implementar a lógica de execução da estratégia 2
             const uint16_t AJUSTEZINHO_TIME = 50;
             const uint16_t TURN_90_TIME_MS = 250;
-            led.on();
+            led->on();
             hal::mcu::sleep(2000);
-            led.off();
+            led->off();
             this->move_timer(RIGHT, AJUSTEZINHO_TIME);
-            led.on();
+            led->on();
             hal::mcu::sleep(2000);
-            led.off();
+            led->off();
             this->move_timer(LEFT, TURN_90_TIME_MS);
-            led.on();
+            led->on();
             hal::mcu::sleep(2000);
-            led.off();
+            led->off();
 
             break;
         }
