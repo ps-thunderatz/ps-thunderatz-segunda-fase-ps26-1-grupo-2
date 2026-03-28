@@ -14,7 +14,15 @@
 
 int main() {
     // TODO: Adicionar a lógica de teste para o LED.
+
     hal::mcu::init();
 
-    for (;;) { }
+    Led led(LED_PORT, LED_PIN);
+
+    for (;;) {
+        hal::mcu::sleep(1000);
+        led.on();
+        hal::mcu::sleep(1000);
+        led.off();
+    }
 }

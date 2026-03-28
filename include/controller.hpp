@@ -23,7 +23,7 @@ public:
     /**
      * @brief Construct a new Controller object.
      */
-    Controller(Led led, Locomotion locomotion, Rc rc);
+    Controller(Led& led, Locomotion& locomotion, Rc& rc);
 
     /**
      * @brief Initialize controller.
@@ -35,7 +35,9 @@ public:
      */
     void run();
 
-private:
+
+
+//private:
     /**
      * @brief Controller states.
      */
@@ -45,11 +47,8 @@ private:
         RUN,
         STOP,
     };
-
-    /**
-     * @brief Robot directions.
-     */
     enum Direction {
+        SLOW_FOWARD,
         FORWARD,
         BACKWARD,
         LEFT,
@@ -57,6 +56,13 @@ private:
         STOPPED,
         RC_INPUT,
     };
+
+    void move_robot(Direction direction);
+
+    /**
+     * @brief Robot directions.
+     */
+
 
     enum Level : uint8_t {
         LEVEL_0,
@@ -70,7 +76,9 @@ private:
      *
      * @param direction Direction to move the robot.
      */
-    void move_robot(Direction direction);
+
+
+    void move_timer(Direction direction, uint16_t time_elapsed);
 
     /**
      * @brief Set the next strategy.
@@ -82,12 +90,12 @@ private:
      */
     void strategy_run();
 
-    Led        led;
-    Locomotion locomotion;
-    Rc         rc;
+    Led*        led;
+    Locomotion* locomotion;
+    Rc*         rc;
 
     State     current_state = INIT;
-    Direction turn = STOPPED;
+    Direction direction = STOPPED;
 
     const uint8_t max_strategy = 3;
     uint8_t       current_level = 0;

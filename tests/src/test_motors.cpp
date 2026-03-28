@@ -15,5 +15,33 @@
 
 int main() {
     // TODO: Adicionar a lógica de teste para o motor.
-    for (;;) { }
+
+    hal::mcu::init();
+
+    Led led(LED_PORT, LED_PIN);
+
+    Motor motor_left(
+        MOTORS_TIM_INIT, MOTORS_TIM_HANDLER, LEFT_MOTOR_FORWARD_TIM_CH,
+        MOTORS_TIM_HANDLER, LEFT_MOTOR_BACKWARD_TIM_CH, -100, 100
+    );
+    Motor motor_right(
+        MOTORS_TIM_INIT, MOTORS_TIM_HANDLER, RIGHT_MOTOR_FORWARD_TIM_CH,
+        MOTORS_TIM_HANDLER, RIGHT_MOTOR_BACKWARD_TIM_CH, -100, 100
+    );
+
+    for (;;) {
+        motor_left.set_speed(-70);
+        motor_right.set_speed(70);
+
+        led.on();
+
+        hal::mcu::sleep(3000);
+
+        motor_left.stop();
+        motor_right.stop();
+
+        led.off();
+
+        hal::mcu::sleep(2000);
+    }
 }
